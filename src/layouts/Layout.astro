@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import CustomCursor from '../components/CustomCursor.astro';
 ---
 
 <!doctype html>
@@ -9,19 +10,44 @@ import '../styles/global.css';
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
+		<meta name="description" content="Osobní portfolio Matyáše Svobody — frontend vývojář, UI/UX designer, kreativec." />
 		<title>Matyáš Svoboda | Portfolio</title>
 		
-		<!-- Google Fonts: Inter -->
+		<!-- Google Fonts: Inter + Space Grotesk -->
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
 	</head>
-	<body class="relative min-h-screen text-white bg-bg-deep selection:bg-brand-accent selection:text-white">
-		<div class="noise-bg"></div>
+	<body class="relative min-h-screen text-white bg-bg-deep">
 		
-		<!-- Zde vložíme gradient světla pod myší nebo někde na pozadí později -->
-		<div class="fixed top-0 left-1/2 -translate-x-1/2 w-[800px] h-[300px] bg-brand-glow opacity-30 blur-[100px] pointer-events-none -z-10 rounded-full"></div>
+		<!-- Cursor glow spotlight that follows mouse -->
+		<div id="cursor-glow"></div>
 
 		<slot />
+		
+		<CustomCursor />
+		
+		<script>
+			// Cursor glow - big ambient light following mouse
+			const glow = document.getElementById('cursor-glow');
+			if (glow && window.matchMedia("(pointer: fine)").matches) {
+				let mx = 0, my = 0, gx = 0, gy = 0;
+				
+				window.addEventListener('mousemove', (e) => {
+					mx = e.clientX;
+					my = e.clientY;
+				});
+				
+				// Smooth interpolation for dreamy follow
+				function animate() {
+					gx += (mx - gx) * 0.08;
+					gy += (my - gy) * 0.08;
+					glow.style.left = gx + 'px';
+					glow.style.top = gy + 'px';
+					requestAnimationFrame(animate);
+				}
+				animate();
+			}
+		</script>
 	</body>
 </html>

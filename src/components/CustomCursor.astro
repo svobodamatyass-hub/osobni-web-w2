@@ -1,0 +1,53 @@
+---
+---
+
+<!-- Wrapper pro hardwarově akcelerovaný plynulý pohyb -->
+<div id="cursor-wrapper" class="fixed top-0 left-0 pointer-events-none z-[10000] hidden">
+  <!-- Vnější ring (jemný obrys) -->
+  <div id="cursor-ring" class="absolute w-10 h-10 border border-purple-400/30 rounded-full -translate-x-1/2 -translate-y-1/2 transition-all duration-500 ease-out"></div>
+  <!-- Vnitřní tečka -->
+  <div id="cursor-dot" class="w-2.5 h-2.5 bg-purple-400 rounded-full -translate-x-1/2 -translate-y-1/2 shadow-[0_0_12px_rgba(192,132,252,0.6)] transition-transform duration-300 ease-out"></div>
+</div>
+
+<script>
+  if (window.matchMedia("(pointer: fine)").matches) {
+    const wrapper = document.getElementById('cursor-wrapper');
+    const dot = document.getElementById('cursor-dot');
+    const ring = document.getElementById('cursor-ring');
+    
+    if (wrapper && dot && ring) {
+      wrapper.classList.remove('hidden');
+      
+      const style = document.createElement('style');
+      style.innerHTML = `* { cursor: none !important; }`;
+      document.head.appendChild(style);
+      
+      // Přímé sledování polohy
+      window.addEventListener('mousemove', (e) => {
+        wrapper.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
+      });
+
+      // Hover
+      const attachHoverEvents = () => {
+        const interactives = document.querySelectorAll('button, input, textarea, a:not(.no-cursor-scale)');
+        
+        interactives.forEach((el) => {
+          el.addEventListener('mouseenter', () => {
+             dot.classList.add('scale-0');
+             ring.classList.add('w-16', 'h-16', 'border-purple-400/60');
+             ring.classList.remove('w-10', 'h-10', 'border-purple-400/30');
+          });
+          
+          el.addEventListener('mouseleave', () => {
+             dot.classList.remove('scale-0');
+             ring.classList.remove('w-16', 'h-16', 'border-purple-400/60');
+             ring.classList.add('w-10', 'h-10', 'border-purple-400/30');
+          });
+        });
+      };
+
+      attachHoverEvents();
+      document.addEventListener('astro:page-load', attachHoverEvents);
+    }
+  }
+</script>
