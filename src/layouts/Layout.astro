@@ -1,23 +1,27 @@
+---
+import '../styles/global.css';
+---
+
 <!doctype html>
-<html lang="en">
+<html lang="cs" class="scroll-smooth">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
+		<title>Matyáš Svoboda | Portfolio</title>
+		
+		<!-- Google Fonts: Inter -->
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
 	</head>
-	<body>
+	<body class="relative min-h-screen text-white bg-bg-deep selection:bg-brand-accent selection:text-white">
+		<div class="noise-bg"></div>
+		
+		<!-- Zde vložíme gradient světla pod myší nebo někde na pozadí později -->
+		<div class="fixed top-0 left-1/2 -translate-x-1/2 w-[800px] h-[300px] bg-brand-glow opacity-30 blur-[100px] pointer-events-none -z-10 rounded-full"></div>
+
 		<slot />
 	</body>
 </html>
-
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>
